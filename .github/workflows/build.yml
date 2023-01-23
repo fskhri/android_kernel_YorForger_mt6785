@@ -1,4 +1,4 @@
-name: "Build"
+name: "Kernel Build"
 
 on:
   push:
@@ -16,6 +16,8 @@ jobs:
     - name: "Pre-build message to Telegram"
       uses: appleboy/telegram-action@master
       with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: Building kernel. https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
     - name: "Android kernel build"
@@ -30,6 +32,8 @@ jobs:
     - name: "Post build to Telegram"
       uses: appleboy/telegram-action@master
       with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: Kernel is built!, took ${{ steps.build.outputs.elapsed_time }} seconds.
         document: ${{ steps.build.outputs.outfile }}
 
@@ -37,4 +41,7 @@ jobs:
       uses: appleboy/telegram-action@master
       if: ${{ failure() }}
       with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: Failed building kernel, check action for more info.
+© 2021 GitHub, Inc.
